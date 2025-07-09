@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./doc
+    container_name: docb
+    ports:
+      - '3001:3001'   # Host:Container
+    networks:
+      - app-network
+
+  frontend:
+    build: ./docf
+    container_name: docf
+    ports: 
+      - '3000:3000' 
+    networks:
+      - app-network
+    environment:
+      - REACT_APP_API_URL=http://backend:3001  
+
+networks:
+  app-network:
+    driver: bridge
