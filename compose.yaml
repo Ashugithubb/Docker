@@ -1,24 +1,154 @@
-version: '3.8'
-
 services:
   backend:
     build: ./doc
     container_name: docb
     ports:
-      - '3001:3001'   # Host:Container
-    networks:
-      - app-network
+      - '3001:3001'
+    volumes:
+      - ./doc:/app
+      - /app/node_modules
+    working_dir: /app
+    command: npm run start:dev
+    depends_on:
+      - postgres
 
   frontend:
     build: ./docf
     container_name: docf
     ports: 
       - '3000:3000' 
-    networks:
-      - app-network
+    volume:
+      - ./docf:/app
+      - /app/node_modules
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
     environment:
-      - REACT_APP_API_URL=http://backend:3001  
+      - POSTGRES_USER=ashu 
+      - POSTGRES_PASSWORD=ashu
+      - POSTGRES_DB=my_db
+    ports:
+      - "5440:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
 
-networks:
-  app-network:
-    driver: bridge
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"  # SMTP port
+      - "8025:8025"  # Web UI
+
+volumes:
+  db_data:
+
+
+
+
+
+
+
+
+
+
+
+# services:
+#   backend:
+#     build: ./doc
+#     container_name: docb
+#     ports:
+#       - '3001:3001'
+#     # develop:
+#     #   watch:
+#     #     - action: sync
+#     #       path: ./doc
+#     #       target: /app
+#     #       ignore:
+#     #         - node_modules/
+#     #     - action: rebuild
+#     #       path: ./doc/package.json
+#     volumes:
+#       - ./doc:/app
+#       - /app/node_modules
+#     working_dir: /app
+#     command: npm run start:dev
+#     depends_on:
+#       - postgres
+
+#   frontend:
+#     build: ./docf
+#     container_name: docf
+#     ports: 
+#       - '3000:3000' 
+#     # develop:
+#     #   watch:
+#     #     - action: sync
+#     #       path: ./docf
+#     #       target: /app
+#     #       ignore:
+#     #         - node_modules/
+#     #     - action: rebuild
+#     #       path: package.json
+#     volume:
+#       - ./docf:/app
+#       - /app/node_modules
+#   postgres:
+#     image: postgres:latest
+#     container_name: postgres
+#     restart: always
+#     environment:
+#       - POSTGRES_USER=ashu 
+#       - POSTGRES_PASSWORD=ashu
+#       - POSTGRES_DB=my_db
+#     ports:
+#       - "5440:5432"
+#     volumes:
+#       - db_data:/var/lib/postgresql/data
+    
+#   pgadmin:
+#     image: dpage/pgadmin4
+#     container_name: pgadmin
+#     restart: always
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#       PGADMIN_DEFAULT_PASSWORD: admin
+#     ports:
+#       - "5050:80"
+#     depends_on:
+#       - postgres
+
+#   mailhog:
+#     image: mailhog/mailhog
+#     container_name: mailhog
+#     ports:
+#       - "1025:1025"  # SMTP port
+#       - "8025:8025"  # Web UI
+
+
+# volumes:
+#   db_data:
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,8 +1,8 @@
 # Use official Node image
-FROM node:18.20.6
+FROM node:20
 
 # Set working directory inside the container
-WORKDIR /src
+WORKDIR /app
 
 # Copy only package.json and lock file first (layer caching)
 COPY package*.json ./
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose port (same as in main.ts)
-EXPOSE 3000
+EXPOSE 3001
 
 # Start the app
 CMD ["node", "dist/main.js"]
