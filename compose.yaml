@@ -17,7 +17,7 @@ services:
     container_name: docf
     ports: 
       - '3000:3000' 
-    volume:
+    volumes:
       - ./docf:/app
       - /app/node_modules
   postgres:

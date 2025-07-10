@@ -6,7 +6,7 @@ export default function Home() {
 
   const handleClick = async () => {
     try {
-      const res = await fetch('http://localhost:3001/app');
+      const res = await fetch('http://localhost:3001');
       const data = await res.json();
       setMsg(data.message || "Response received");
       console.log(data);
@@ -21,6 +21,7 @@ export default function Home() {
     <>
       <h1>{msg}</h1>
       <button onClick={handleClick}>Click</button>
+      <h1>heloo</h1>
     </>
   );
 }

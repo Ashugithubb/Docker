@@ -5,7 +5,7 @@ import AppEntity from './entities/app.entity';
 import { Repository } from 'typeorm';
 import Userdto from './dto/user.dto';
 
-@Controller('app')
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService,
      

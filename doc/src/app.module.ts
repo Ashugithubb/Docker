@@ -19,7 +19,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
       database: configService.get<string>('DB_DATABASE'),
       entities: [AppEntity],
       synchronize: false,
-      migrations: ['src/migrations/**/*.ts']
+      migrations: ['dist/migrations/**/*.js'],
     }),
   }), MailerModule.forRootAsync({
     useFactory: async () => ({
